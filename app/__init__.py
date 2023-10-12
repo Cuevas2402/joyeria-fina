@@ -20,4 +20,4 @@ app.secret_key = "nuestraClaveSecretaUWU"
 
 #mysql = MySQL(app)
 
-from app import credentials, vehicles
+from app import credentials, vehicles, branches

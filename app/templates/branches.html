@@ -16,6 +16,11 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <title>Document</title>
+        <style>
+          td {
+            width: 33% ;
+          }
+        </style>
     </head>
     <body style="background-color: lightgray; padding-top: 1.5rem;">
         
@@ -46,31 +51,30 @@
             </div>
            <div class="container">
 				<form class="d-flex" role="search">
-					<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-					<button class="btn btn-outline-success" type="submit">Search</button>
+					<button class="btn btn-outline-success" type="submit">Crear Nuevo Registro</button>
 			  </form>
 		   </div> 
 		   
-		   <div class="container mt-5">
-			<table class="table">
-				<thead class="table-dark">
-				  <tr>
-					<th scope="col">#</th>
-					<th scope="col">First</th>
-					<th scope="col">Last</th>
-					<th scope="col">Handle</th>
-				  </tr>
-				</thead>
-				<tbody>
-				  <tr>
-					<th scope="row">1</th>
-					<td>Mark</td>
-					<td>Otto</td>
-					<td>@mdo</td>
-				  </tr>
-				</tbody>
-			  </table>
-		   </div>
+		      <div class="container mt-5">
+					<table class="table" style="table-layout: fixed ; width: 100% ;">
+						<thead class="table-dark">
+							<tr>
+							<th scope="col">#</th>
+							<th scope="col">First</th>
+							<th scope="col">Second</th>
+							</tr>
+						</thead>
+						<tbody class="w-100">
+							{% for branch in branches %}
+								<tr>
+									<td>{{ branch[0] }}</td>
+									<td>{{ branch[1] }}</td>
+									<td> <button class="mx-2 btn btn-outline-info">Detalles</button><button class="mx-2 btn btn-outline-primary">Editar</button><button class="mx-2 btn btn-outline-danger">Eliminar</button></td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+		      </div>
 
         </div>
 

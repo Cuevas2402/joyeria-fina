@@ -10,7 +10,6 @@ def show_vehicles():
         cursor.execute('SELECT id, name FROM truck LIMIT 10;')
 
         vehicles = cursor.fetchall()
-        print(vehicles)
         return render_template('vehicles.html', vehicles=vehicles)
     else:
         return redirect(url_for('login'))

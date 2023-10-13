@@ -79,4 +79,36 @@ def create_vehicle():
 
         return redirect(url_for('show_vehicles'))
     
+@app.route('/vehicles/edit/<id>')
+def edit_vehicle_show(id):
+
+    if 'username' in session:
+        cursor = mysql.connection.cursor()
+
+        sql = "SELECT COLUMN_NAME from information_schema.columns WHERE table_schema = 'integracion' AND table_name = 'truck';"
+
+        cursor.execute(sql)
+
+        atributos = cursor.fetchall()
+
+        cursor.close()
+
+        return render_template('crud_vehicles/edit.html', atributos=atributos, id= id)
+
+@app.route('/edit-vehicle/<id>', methods = ['POST', 'GET'])
+def  edit_vehicle(id):
+    if request.method == 'POST':
+        cursor = mysql.connection.cursor()
+
+        atributo = request.form.get('atributo')
+
+        valor = request.form.get('valor')
+
+        sql = "UPDATE truck SET {} = '{}' WHERE id = {};".format(atributo, valor ,id, )
+
+        cursor.execute(sql)
+
+        mysql.connection.commit()
+
+        return redirect(url_for('show_vehicles'))
 

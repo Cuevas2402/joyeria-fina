@@ -13,11 +13,11 @@ app = Flask(__name__)
 app.secret_key = "nuestraClaveSecretaUWU"
 #load_dotenv()
 
-#app.config['MYSQL_HOST'] = '127.0.0.1' 
-#app.config['MYSQL_USER'] = ''
-#app.config['MYSQL_PASSWORD'] = ''
-#app.config['MYSQL_DB'] = ''
+app.config['MYSQL_HOST'] = '127.0.0.1' 
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'integracion'
 
-#mysql = MySQL(app)
+mysql = MySQL(app)
 
 from app import credentials, vehicles, branches

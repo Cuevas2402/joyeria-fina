@@ -16,6 +16,11 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <title>Document</title>
+		<style>
+			td {
+				width: 33% ;
+			}
+		</style>
     </head>
     <body style="background-color: lightgray; padding-top: 1.5rem;">
         
@@ -52,22 +57,22 @@
 		   </div> 
 		   
 		   <div class="container mt-5">
-			<table class="table">
+			<table class="table" style="table-layout: fixed ; width: 100% ;">
 				<thead class="table-dark">
 				  <tr>
 					<th scope="col">#</th>
 					<th scope="col">First</th>
-					<th scope="col">Last</th>
-					<th scope="col">Handle</th>
+					<th scope="col">Second</th>
 				  </tr>
 				</thead>
-				<tbody>
-				  <tr>
-					<th scope="row">1</th>
-					<td>Mark</td>
-					<td>Otto</td>
-					<td>@mdo</td>
-				  </tr>
+				<tbody class="w-100">
+					{% for vehicle in vehicles %}
+						<tr>
+							<td>{{ vehicle[0] }}</td>
+							<td>{{ vehicle[1] }}</td>
+							<td> <button class="mx-2 btn btn-outline-info">Detalles</button><button class="mx-2 btn btn-outline-primary">Editar</button><button class="mx-2 btn btn-outline-danger">Eliminar</button></td>
+						</tr>
+					{% endfor %}
 				</tbody>
 			  </table>
 		   </div>

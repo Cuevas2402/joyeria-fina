@@ -2,6 +2,24 @@ from app import app , mysql
 from flask import render_template, request, session, url_for, redirect
 import requests, math
 
+@app.route('/orders')
+def show_orders():
+    if 'type' in session:
+        if session['type'] == 2:
+            cursor = mysql.connection.cursor()
+
+            cursor.execute('SELECT id, status FROM orders;')
+
+            orders = cursor.fetchall()
+            
+            cursor.close()
+
+            return render_template('joyeria/orders.html', orders = orders)
+        else:
+            return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
+
 @app.route('/get-branches', methods = ['GET', 'POST'])
 def get_branches():
     if request.method == 'POST':

@@ -27,13 +27,25 @@
                   <span class="navbar-brand mb-0 h1"> Joyería Fina </span>
                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
-						
-                      <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('show_vehicles')}}">Vehiculos</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('show_branches')}}">Estaciones</a>
-                      </li>
+                      {% if session['type'] == 1 %}
+
+                        <li class="nav-item">
+                          <a class="nav-link active" aria-current="page" href="{{ url_for('show_vehicles')}}">Vehiculos</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link active" aria-current="page" href="{{ url_for('show_branches')}}">Estaciones</a>
+                        </li>
+
+                      {% endif %}
+
+                      {% if session['type'] == 2 %}
+
+                        <li class="nav-item">
+                          <a class="nav-link active" aria-current="page" href="{{ url_for('show_orders')}}">Ordenes</a>
+                        </li>
+
+                      {% endif %}
+
                     </ul>
                     <button class="btn btn-outline-danger" id="btn-logout">Log out</button>
                   </div>

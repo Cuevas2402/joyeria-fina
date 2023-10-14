@@ -10,7 +10,12 @@ def login():
     if 'type' not in session: 
         return render_template('login.html')
     else:
-        return redirect(url_for('show_vehicles'))
+        if session['type'] == 1:
+            return redirect(url_for('show_vehicles'))
+        elif session['type'] == 2:
+            return redirect(url_for('show_orders'))
+        elif session['type'] == 3:
+            return redirect(url_for('show_vehicles'))
 
 @app.route('/logout')
 def log_out():
@@ -46,12 +51,8 @@ def iniciar_sesion():
                     session['admin'] = data['admin']
                     session['id'] = data['id']
                     session['type'] = data['type']
-                    if session['type'] == 1:
-                        return redirect(url_for('show_vehicles'))
-                    elif session['type'] == 2:
-                        return redirect(url_for('show_vehicles'))
-                    elif session['type'] == 3:
-                        return redirect(url_for('show_vehicles'))
+
+                    return redirect(url_for('login'))
                 else:
                     return redirect(url_for('login'))
             else:

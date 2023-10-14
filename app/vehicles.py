@@ -6,7 +6,6 @@ from datetime import date
 def show_vehicles():
     if 'type' in session:
         if session['type'] == 1 :
-            print(session)
             cursor = mysql.connection.cursor()
 
             cursor.execute('SELECT id, name FROM truck WHERE company_id = %s LIMIT 10;', (session['id'], ))

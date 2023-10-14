@@ -110,5 +110,27 @@ def  edit_vehicle(id):
 
         mysql.connection.commit()
 
+        cursor.close()
+
         return redirect(url_for('show_vehicles'))
+
+@app.route('/vehicles/delete-vehicle', methods = ['GET', 'POST'])
+def delete_vehicle():
+
+    if request.method == 'GET':
+
+        id = request.args.get('id')
+
+        cursor = mysql.connection.cursor()
+
+        sql = "DELETE FROM truck WHERE id = %s"
+
+        cursor.execute(sql, (id, ))
+
+        mysql.connection.commit()
+
+    return redirect(url_for('show_vehicles'))
+    
+
+    
 

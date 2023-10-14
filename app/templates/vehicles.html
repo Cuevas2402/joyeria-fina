@@ -38,7 +38,7 @@
 					<tr>
 						<td>{{ vehicle[0] }}</td>
 						<td>{{ vehicle[1] }}</td>
-						<td> <button id= "detalles" class="crud-detalles mx-2 btn btn-outline-info" value="{{ vehicle[0] }}">Detalles</button><button id="editar" class="crud-editar btn btn-outline-primary" value="{{ vehicle[0] }}">Editar</button><button class="crud-eliminar mx-2 btn btn-outline-danger" value="{{ vehicle[0] }}">Eliminar</button></td>
+						<td> <button id= "detalles" class="crud-detalles mx-2 btn btn-outline-info" value="{{ vehicle[0] }}">Detalles</button><button data-type="vehicle" class="crud-editar btn btn-outline-primary" value="{{ vehicle[0] }}">Editar</button><button data-type="vehicle" class="crud-eliminar mx-2 btn btn-outline-danger" value="{{ vehicle[0] }}">Eliminar</button></td>
 					</tr>
 				{% endfor %}
 			</tbody>

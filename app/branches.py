@@ -3,7 +3,7 @@ from flask import render_template, request, session, url_for, redirect
 
 @app.route('/branches')
 def show_branches():
-    if 'username' in session:
+    if 'id' in session:
         
         cursor = mysql.connection.cursor()
 
@@ -17,8 +17,8 @@ def show_branches():
 
 @app.route('/branches/edit/<id>')
 def edit_branches_show(id):
-
-    if 'username' in session:
+    
+    if 'id' in session and session['admin']:
         cursor = mysql.connection.cursor()
 
         sql = "SELECT COLUMN_NAME from information_schema.columns WHERE table_schema = 'integracion' AND table_name = 'company';"
@@ -30,46 +30,55 @@ def edit_branches_show(id):
         cursor.close()
 
         return render_template('company/edit.html', atributos=atributos, id= id, label = 'branch')
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/edit-branch/<id>', methods = ['POST', 'GET'])
 def  edit_branch(id):
-    if request.method == 'POST':
-        cursor = mysql.connection.cursor()
+    if 'id' in session and session['admin']:
 
-        atributo = request.form.get('atributo')
+        if request.method == 'POST':
+            cursor = mysql.connection.cursor()
 
-        valor = request.form.get('valor')
+            atributo = request.form.get('atributo')
 
-        sql = "UPDATE company SET {} = '{}' WHERE id = {};".format(atributo, valor ,id, )
+            valor = request.form.get('valor')
 
-        cursor.execute(sql)
+            sql = "UPDATE company SET {} = '{}' WHERE id = {};".format(atributo, valor ,id, )
 
-        mysql.connection.commit()
+            cursor.execute(sql)
 
-        cursor.close()
+            mysql.connection.commit()
+
+            cursor.close()
 
         return redirect(url_for('show_branches'))
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/branches/delete-branch', methods = ['GET', 'POST'])
 def delete_branch():
 
-    if request.method == 'GET':
+    if 'id' in session and session['admin']:
+        if request.method == 'GET':
 
-        id = request.args.get('id')
+            id = request.args.get('id')
 
-        cursor = mysql.connection.cursor()
+            cursor = mysql.connection.cursor()
 
-        sql = "DELETE FROM company WHERE id = %s"
+            sql = "DELETE FROM company WHERE id = %s"
 
-        cursor.execute(sql, (id, ))
+            cursor.execute(sql, (id, ))
 
-        mysql.connection.commit()
+            mysql.connection.commit()
 
-    return redirect(url_for('show_branches'))
+        return redirect(url_for('show_branches'))
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/branches/detailes/<id>')
 def details_branch(id):
-    if 'username' in session:
+    if 'id' in session:
 
         cursor = mysql.connection.cursor()
 

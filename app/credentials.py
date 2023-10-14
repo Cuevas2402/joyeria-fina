@@ -7,7 +7,7 @@ app.secret_key = "nuestraClaveSecretaUWU"
 
 @app.route('/')
 def login():
-    if 'username' not in session:
+    if 'username' not in session or 'id' not in session: 
         return render_template('login.html')
     else:
         return redirect(url_for('show_vehicles'))
@@ -16,6 +16,14 @@ def login():
 def log_out():
     if 'username' in session:
         session.pop('username', None)
+
+    if 'id' in session:
+        session.pop('id', None)
+    
+    if 'admin' in session:
+        session.pop('admin', None)
+
+        
     return redirect(url_for('login'))
 
 @app.route('/iniciar_sesion', methods = ['GET', 'POST'])

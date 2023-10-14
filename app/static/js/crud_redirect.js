@@ -32,3 +32,12 @@ $(document).ready(() =>{
         });
     })
 });
+
+
+$(document).ready(() => {
+    $('.asign').click(function(){
+        var id = $(this).val();
+
+        window.location.href = window.location.href+'/asign/'+id;
+    });
+});

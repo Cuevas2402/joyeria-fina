@@ -20,13 +20,33 @@ def show_orders():
     else:
         return redirect(url_for('login'))
 
+@app.route('/orders/asign/<id>')
+def show_asign_template(id):
+    if 'type' in session:
+        if session['type'] == 2:
+            datos = {'id': id} 
+            url = 'http://127.0.0.1:5000/get-branches' 
+            response = requests.post(url, data=datos)
+            
+            if response.status_code == 200:
+                orders = response.json()
+
+                return render_template('joyeria/asign.html', orders = orders['nearest_branches'], label = 'order', id = id)
+
+            else:
+                return redirect(url_for('login'))
+        else:
+            return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
+
 @app.route('/get-branches', methods = ['GET', 'POST'])
 def get_branches():
     if request.method == 'POST':
         order_id = request.form.get('id')
 
         cursor = mysql.connection.cursor()
-        sql = "SELECT latitude, longitude FROM order WHERE id = %s;"
+        sql = "SELECT latitude, longitude FROM orders WHERE id = %s;"
         cursor.execute(sql, (order_id, ))
         order_coordinates = cursor.fetchall()
         cursor.close()
@@ -36,10 +56,9 @@ def get_branches():
         cursor.execute(sql)
         branches_coordinates = cursor.fetchall()
         cursor.close()
-
         distances = []
 
-        x2, y2 = order_coordinates
+        x2, y2 = order_coordinates[0]
         for branch in branches_coordinates:
             branch_id, branch_name, x1, y1 = branch
             distance = math.sqrt((x2-x1)**2 + (y2-y1)**2)
@@ -48,7 +67,7 @@ def get_branches():
         distances.sort()
         shortest_distances = distances[:5]
 
-        nearest_branches = [{'branch_id' : distance[1], 'branch_name' : distance[2]} for distance in shortest_distances]
+        nearest_branches = [{'branch_id' : str(distance[1]), 'branch_name' : distance[2]} for distance in shortest_distances]
 
         return {'nearest_branches' : nearest_branches}
 
@@ -71,7 +90,7 @@ def get_companies():
 
         distances = []
 
-        x2, y2 = branch_coordinates
+        x2, y2 = branch_coordinates[0]
         for company in companies_coordinates:
             company_id, company_name, x1, y1 = company
             distance = math.sqrt((x2-x1)**2 + (y2-y1)**2)
@@ -80,7 +99,7 @@ def get_companies():
         distances.sort()
         shortest_distances = distances[:5]
 
-        nearest_companies = [{'company_id' : distance[1], 'company_name' : distance[2]} for distance in shortest_distances]
+        nearest_companies = [{'company_id' : str(distance[1]), 'company_name' : distance[2]} for distance in shortest_distances]
 
         return {'nearest_companies' : nearest_companies}
 
@@ -93,6 +112,7 @@ def get_vehicles():
         sql = "SELECT id, name, fixed_price, km_fee FROM truck WHERE company_id = %s;"
         cursor.execute(sql, (company_id, ))
         vehicles = cursor.fetchall()
+        print(vehicles)
         cursor.close()
 
         return jsonify(vehicles)

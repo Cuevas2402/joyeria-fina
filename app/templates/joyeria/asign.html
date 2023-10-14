@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %} Branches {% endblock %}
+
+{% block head %}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="container mt-5 bg-white rounded shadow pt-5 pb-5 p-5 h-100 mb-5 w-75">
+        <div class="container">
+            <h2 class="text-center mb-5"> Asignar {{ label }} </h1>
+        </div>
+        <div class="container my-5">
+            <h5>ID {{ label }}: {{ id }}</h5>
+        </div>
+        <form action="/asign-{{ label }}/{{ id }}" method="POST">
+            
+            <div class="col">
+                <div class="branches my-3">
+
+                    <label class="form-label">Seleccione una Sucursal </label>
+                    
+                    <select id="branches" class="form-select" name="atributo" aria-label="Default select example">
+                        <option selected> -- Selecciona un Sucursal -- </option>
+                        {% for order in orders %}
+                            <option value="{{ order['branch_id'] }}">{{ order['branch_id'] + " - " + order['branch_name'] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="company my-3">
+                    
+                    <label class="form-label">Seleccione una compañia </label>
+                    
+                    <select id="company" class="form-select" name="atributo" aria-label="Default select example">
+                        <option selected> -- Selecciona un Compañia -- </option>
+                    
+                     </select>
+
+                </div>
+                
+                <div class="vehicle my-3">
+                    
+                    <label class="form-label">Seleccione un vehiculo </label>
+                    
+                    <select id="vehicle" class="form-select" name="atributo" aria-label="Default select example">
+                        <option selected> -- Selecciona un Vehiculo -- </option>
+                    </select>
+                </div>
+            </div>
+            <div class="my-5 justiy-content-center">
+                <button type="submit" class="btn center w-100 btn-lg btn-block shadow-lg text-light" style=" background-color: #8973D9">Realizar cambio</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block js%}
+    {{ super() }}
+    <script src="{{ url_for('static', filename = 'js/asign_events.js')}}"></script>
+{% endblock %}

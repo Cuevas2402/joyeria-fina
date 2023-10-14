@@ -3,7 +3,7 @@ $(document).ready(() => {
     $('.crud-detalles').click(function(){
         var id = $(this).val();
 
-        window.location.href = window.location.href+'/detailes/'+id;
+        window.location.href = window.location.href+'/details/'+id;
     });
 });
 

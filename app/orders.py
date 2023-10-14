@@ -112,7 +112,6 @@ def get_vehicles():
         sql = "SELECT id, name, fixed_price, km_fee FROM truck WHERE company_id = %s;"
         cursor.execute(sql, (company_id, ))
         vehicles = cursor.fetchall()
-        print(vehicles)
         cursor.close()
 
         return jsonify(vehicles)

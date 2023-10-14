@@ -15,14 +15,14 @@
         <div class="container my-5">
             <h5>ID {{ label }}: {{ id }}</h5>
         </div>
-        <form action="/asign-{{ label }}/{{ id }}" method="POST">
+        <form action="/orders/asign/payment" method="POST">
             
             <div class="col">
                 <div class="branches my-3">
 
                     <label class="form-label">Seleccione una Sucursal </label>
                     
-                    <select id="branches" class="form-select" name="atributo" aria-label="Default select example">
+                    <select id="branches" class="form-select" name="branch" aria-label="Default select example">
                         <option selected> -- Selecciona un Sucursal -- </option>
                         {% for order in orders %}
                             <option value="{{ order['branch_id'] }}">{{ order['branch_id'] + " - " + order['branch_name'] }}</option>
@@ -34,7 +34,7 @@
                     
                     <label class="form-label">Seleccione una compañia </label>
                     
-                    <select id="company" class="form-select" name="atributo" aria-label="Default select example">
+                    <select id="company" class="form-select" name="company" aria-label="Default select example">
                         <option selected> -- Selecciona un Compañia -- </option>
                     
                      </select>
@@ -45,7 +45,7 @@
                     
                     <label class="form-label">Seleccione un vehiculo </label>
                     
-                    <select id="vehicle" class="form-select" name="atributo" aria-label="Default select example">
+                    <select id="vehicle" class="form-select" name="vehicle" aria-label="Default select example">
                         <option selected> -- Selecciona un Vehiculo -- </option>
                     </select>
                 </div>

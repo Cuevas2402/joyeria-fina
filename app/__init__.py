@@ -21,4 +21,4 @@ app.config['MYSQL_DB'] = os.getenv('MYSQL_DB')
 
 mysql = MySQL(app)
 
-from app import credentials, vehicles, branches
+from app import credentials, vehicles, branches, orders

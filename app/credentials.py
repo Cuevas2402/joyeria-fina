@@ -1,4 +1,4 @@
-from app import app #, mysql
+from app import app , mysql
 from flask import render_template, request, session, url_for, redirect
 import requests
 
@@ -33,25 +33,67 @@ def iniciar_sesion():
             username = request.form.get('username') 
             password = request.form.get('password')
             
-            #try:
-                #response = requests.get(url)
+            datos = {'username': username, 'password': password}
+            url = 'http://127.0.0.1:5000/authentication' 
+            response = requests.post(url, data=datos)
+            if response.status_code == 200:
+                data = response.json()
+                session['username'] = data['username']
+                session['admin'] = data['admin']
+                session['id'] = data['id']
+                session['type'] = data['type']
+                print(session['id'])
 
-                #if response.status_code == 200:
-                    #data = response.json() 
-                      
-                #else:
-                    #return "Error al recuperar los datos"
+                if session['type'] == 1:
+                    return redirect(url_for('show_vehicles'))
+                elif session['type'] == 2:
+                    return redirect(url_for('show_vehicles'))
+            else:
+                return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
 
-            #except requests.exceptions.RequestException as e:
-                #return str(e), 500
+
+@app.route('/authentication', methods = ['GET', 'POST'])
+def authentication():
+    if request.method == 'POST':
+        data = {}
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        cursor = mysql.connection.cursor()
 
 
-            response = { 'usuario': username, 'admin': True, 'id' : 54}            
-            session['username'] = response['usuario']
-            session['admin'] = response['admin']
-            session['id'] = response['id']
+        sql = "SELECT * FROM identity WHERE username = %s AND password = %s;"
 
-        return redirect(url_for('show_vehicles')) 
+        cursor.execute(sql, (username, password, ))
+
+        results = cursor.fetchall()
+
+        if len(results) > 0 :
+            data = {}
+            data['username'] = results[0][3]
+            data['admin'] = results[0][5] == 1
+
+            sql = "SELECT * FROM identity, identity_company WHERE identity.id = identity_company.identity_id AND identity.id = %s;"
+
+            cursor.execute(sql, (results[0][1], ))
+
+            results = cursor.fetchall()
+
+            if(len(results) > 0):
+                data['id'] = results[0][1]
+                data['type'] = 1 
+            else:
+                data['id'] = None
+                data['type'] = 2 if data['admin'] else 3
+                
+
+            return data
+        else:
+            return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
 
 
         

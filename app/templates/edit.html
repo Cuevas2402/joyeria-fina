@@ -10,12 +10,12 @@
 
     <div class="container mt-5 bg-white rounded shadow pt-5 pb-5 p-5 h-100 mb-5 w-75">
         <div class="container">
-            <h2 class="text-center mb-5"> Editar vehiculo </h1>
+            <h2 class="text-center mb-5"> Editar {{ label }} </h1>
         </div>
         <div class="container my-5">
-            <h5>ID de Vehiculo: {{ id }}</h5>
+            <h5>ID {{ label }}: {{ id }}</h5>
         </div>
-        <form action="/edit-vehicle/{{ id }}" method="POST">
+        <form action="/edit-{{ label }}/{{ id }}" method="POST">
             
             <div class="row">
                 <div class="col">

@@ -18,12 +18,13 @@
 		<div class="container">
 			<h1 class="text-center mb-5">Estaciones</h1>
 		</div>
-		<div class="container">
-			<form class="d-flex" role="search">
-				<button class="btn btn-outline-success" type="submit">Crear Nuevo Registro</button>
-			</form>
-		</div> 
-		
+		{% if session['admin'] %}
+			<div class="container">
+				<div class="d-flex">
+					<a href="{{ url_for('create_vehicle_view')}}"><button class="btn btn-outline-success">Crear Nuevo Registro</button></a>
+				</div>
+			</div> 
+		{% endif %}
 		<div class="container mt-5">
 			<table class="table" style="table-layout: fixed ; width: 100% ;">
 				<thead class="table-dark">
@@ -38,12 +39,27 @@
 						<tr>
 							<td>{{ branch[0] }}</td>
 							<td>{{ branch[1] }}</td>
-							<td> <button class="mx-2 btn btn-outline-info">Detalles</button><button class="mx-2 btn btn-outline-primary">Editar</button><button id="vehicle" class="mx-2 btn btn-outline-danger">Eliminar</button></td>
+							<td>
+								<button class="crud-detalles mx-2 btn btn-outline-info" value="{{ branch[0] }}">Detalles</button>
+
+								{% if session['admin'] %}
+									<button class="crud-editar btn btn-outline-primary" value="{{ branch[0] }}">Editar</button>
+									<button data-type="branch" class="crud-eliminar mx-2 btn btn-outline-danger" value="{{ branch[0] }}">Eliminar</button>
+								{% endif %}
+
+							</td>
 						</tr>
 					{% endfor %}
 				</tbody>
 			</table>
 		</div>
 	</div>
+
+{% endblock %}
+
+{% block js %}
+
+	{{ super() }}
+	<script src="{{ url_for('static', filename = 'js/crud_redirect.js')}}"></script>
 
 {% endblock %}

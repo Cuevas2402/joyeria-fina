@@ -8,7 +8,7 @@ def show_vehicles():
 
         cursor = mysql.connection.cursor()
 
-        cursor.execute('SELECT id, name FROM truck LIMIT 10;')
+        cursor.execute('SELECT id, name FROM truck WHERE company_id = %s LIMIT 10;', (session['id'], ))
 
         vehicles = cursor.fetchall()
         return render_template('vehicles.html', vehicles=vehicles)
@@ -19,7 +19,7 @@ def show_vehicles():
 def create_vehicle_view():
     if 'username' in session:
         
-        return render_template('crud_vehicles/create.html')
+        return render_template('create_vehicle.html')
     else:
         return redirect(url_for('login'))
 
@@ -93,7 +93,7 @@ def edit_vehicle_show(id):
 
         cursor.close()
 
-        return render_template('crud_vehicles/edit.html', atributos=atributos, id= id)
+        return render_template('edit.html', atributos=atributos, id= id, label = 'vehicle')
 
 @app.route('/edit-vehicle/<id>', methods = ['POST', 'GET'])
 def  edit_vehicle(id):
@@ -130,6 +130,35 @@ def delete_vehicle():
         mysql.connection.commit()
 
     return redirect(url_for('show_vehicles'))
+
+@app.route('/vehicles/detailes/<id>')
+def details_vehicle(id):
+    if 'username' in session:
+
+        cursor = mysql.connection.cursor()
+
+        sql = "SELECT COLUMN_NAME from information_schema.columns WHERE table_schema = 'integracion' AND table_name = 'truck';"
+
+        cursor.execute(sql)
+
+        atributos = cursor.fetchall()
+
+        sql = "SELECT * FROM truck WHERE id = %s"
+
+        cursor.execute(sql, (id, ))
+
+        datos = cursor.fetchone()
+
+        attr = []        
+        for i in atributos:
+            attr.append(i[0])
+        
+        results = {}
+        
+        for atributo, dato in zip(attr, datos):
+            results[atributo] = dato
+
+        return render_template('details.html', label = 'vehiculo', results = results)
     
 
     

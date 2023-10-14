@@ -18,13 +18,6 @@
 		<div class="container">
 			<h1 class="text-center mb-5">Estaciones</h1>
 		</div>
-		{% if session['admin'] %}
-			<div class="container">
-				<div class="d-flex">
-					<a href="{{ url_for('create_vehicle_view')}}"><button class="btn btn-outline-success">Crear Nuevo Registro</button></a>
-				</div>
-			</div> 
-		{% endif %}
 		<div class="container mt-5">
 			<table class="table" style="table-layout: fixed ; width: 100% ;">
 				<thead class="table-dark">

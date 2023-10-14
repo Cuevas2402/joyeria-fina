@@ -7,11 +7,11 @@ def show_branches():
         
         cursor = mysql.connection.cursor()
 
-        cursor.execute('SELECT id, name FROM company WHERE id = %s;', (session['id']))
+        cursor.execute('SELECT id, name FROM company WHERE id = %s;', (session['id'], ))
 
         branches = cursor.fetchall()
         
-        return render_template('branches.html', branches = branches)
+        return render_template('company/branches.html', branches = branches)
     else:
         return redirect(url_for('login'))
 
@@ -29,7 +29,7 @@ def edit_branches_show(id):
 
         cursor.close()
 
-        return render_template('edit.html', atributos=atributos, id= id, label = 'branch')
+        return render_template('company/edit.html', atributos=atributos, id= id, label = 'branch')
 
 @app.route('/edit-branch/<id>', methods = ['POST', 'GET'])
 def  edit_branch(id):
@@ -94,4 +94,4 @@ def details_branch(id):
         for atributo, dato in zip(attr, datos):
             results[atributo] = dato
 
-        return render_template('details.html', label = 'branch', results = results)
+        return render_template('company/details.html', label = 'branch', results = results)

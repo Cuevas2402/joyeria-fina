@@ -11,7 +11,7 @@ def show_vehicles():
         cursor.execute('SELECT id, name FROM truck WHERE company_id = %s LIMIT 10;', (session['id'], ))
 
         vehicles = cursor.fetchall()
-        return render_template('vehicles.html', vehicles=vehicles)
+        return render_template('company/vehicles.html', vehicles=vehicles)
     else:
         return redirect(url_for('login'))
 
@@ -19,7 +19,7 @@ def show_vehicles():
 def create_vehicle_view():
     if 'username' in session:
         
-        return render_template('create_vehicle.html')
+        return render_template('company/create_vehicle.html')
     else:
         return redirect(url_for('login'))
 
@@ -93,7 +93,7 @@ def edit_vehicle_show(id):
 
         cursor.close()
 
-        return render_template('edit.html', atributos=atributos, id= id, label = 'vehicle')
+        return render_template('company/edit.html', atributos=atributos, id= id, label = 'vehicle')
 
 @app.route('/edit-vehicle/<id>', methods = ['POST', 'GET'])
 def  edit_vehicle(id):
@@ -158,7 +158,7 @@ def details_vehicle(id):
         for atributo, dato in zip(attr, datos):
             results[atributo] = dato
 
-        return render_template('details.html', label = 'vehiculo', results = results)
+        return render_template('company/details.html', label = 'vehiculo', results = results)
     
 
     

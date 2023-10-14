@@ -38,7 +38,7 @@ def iniciar_sesion():
                 #return str(e), 500
 
 
-            response = { 'usuario': username, 'admin': True, 'id' : 53}            
+            response = { 'usuario': username, 'admin': True, 'id' : 54}            
             session['username'] = response['usuario']
             session['admin'] = response['admin']
             session['id'] = response['id']

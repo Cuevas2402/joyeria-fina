@@ -15,7 +15,7 @@ def login():
         elif session['type'] == 2:
             return redirect(url_for('show_orders'))
         elif session['type'] == 3:
-            return redirect(url_for('show_vehicles'))
+            return redirect(url_for('show_ordering'))
 
 @app.route('/logout')
 def log_out():

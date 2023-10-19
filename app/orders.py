@@ -115,3 +115,125 @@ def get_vehicles():
         cursor.close()
 
         return jsonify(vehicles)
+
+@app.route('/orders/delete-order', methods = ['GET', 'POST'])
+def delete_order():
+    if 'type' in session and 'admin' in session:
+        if session['type'] == 2 and session['admin']:
+            if request.method == 'GET':
+
+                id = request.args.get('id')
+
+                cursor = mysql.connection.cursor()
+
+                sql = "DELETE FROM order_detail WHERE order_id = %s"
+
+                cursor.execute(sql, (id, ))
+
+                sql = "DELETE FROM orders WHERE id = %s"
+
+                cursor.execute(sql, (id, ))
+
+                mysql.connection.commit()
+
+                cursor.close()
+            return redirect(url_for('show_orders'))
+        else:
+            return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
+
+
+@app.route('/orders/details/<id>')
+def details_order(id):
+    if 'type' in session:
+        if session['type'] == 2: 
+
+            cursor = mysql.connection.cursor()
+
+            sql = "SELECT COLUMN_NAME from information_schema.columns WHERE table_schema = 'integracion' AND table_name = 'orders';"
+
+            cursor.execute(sql)
+
+            atributos = cursor.fetchall()
+
+            sql = "SELECT * FROM orders WHERE id = %s"
+
+            cursor.execute(sql, (id, ))
+
+            datos = cursor.fetchone()
+
+            attr = []        
+            for i in atributos:
+                attr.append(i[0])
+            
+            results = {}
+            
+            for atributo, dato in zip(attr, datos):
+                results[atributo] = dato
+            
+            cursor.close()
+
+            return render_template('joyeria/details.html', results = results)
+        else:
+            return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/orders/create')
+def create_order_view():
+    if 'type' in session:
+        if session['type'] == 2:
+            cursor = mysql.connection.cursor()
+            
+            cursor.execute("SELECT id FROM identity;")
+
+            users = cursor.fetchall()
+
+            cursor.close()
+
+            return render_template('joyeria/create_order.html', users = users)
+        else:
+            return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/create-order', methods = ['GET', 'POST'])
+def create_order():
+    if 'type' in session:
+        if session['type'] == 3:
+            if request.method == 'POST':
+                cursor = mysql.connection.cursor()
+
+                user_id = request.form.get('user_id')
+                latitude = request.form.get('latitud') 
+                longitude = request.form.get('longitud')
+                productos = request.form.getlist('modelo')
+                cantidades = request.form.getlist('cantidad')
+
+                cursor.execute("INSERT INTO orders (identity_id, latitude, longitude, status) VALUES (%s, %s, %s, %s)", (user_id, latitude, longitude, 'Pending'))
+                mysql.connection.commit()  
+
+                cursor.execute("SELECT LAST_INSERT_ID()")
+                pedido = cursor.fetchone()[0]
+                c = {}
+                for producto, cantidad in zip(productos, cantidades):
+                    codigo = producto.split("|")
+                    codigo = codigo[0].strip()
+                    if codigo not in c:
+                        cursor.execute("INSERT INTO order_detail (order_id, product_id, quantity) VALUES (%s, %s, %s)",(pedido, codigo, cantidad,))
+                        c[codigo] = int(cantidad)
+                    else:
+                        c[codigo]+=int(cantidad)
+                        cursor.execute("UPDATE order_detail SET quantity = %s WHERE order_id = %s AND product_id = %s", (c[codigo], pedido, pedido, ))
+                    mysql.connection.commit()  
+
+                cursor.close() 
+
+                return redirect(url_for('show_orders')) 
+            else:
+                return redirect(url_for('login'))
+        else:
+            return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))

@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+
+{% block title %} Branches {% endblock %}
+
+{% block head %}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+
+
+    <div class="container mt-4 bg-white rounded shadow pt-5 pb-5 p-5 h-100 mb-5">
+        <form action="/register-order" method="POST">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Latitud de la direccion</label>
+                <input type="text" class="form-control" id="latitud" name="latitud">
+            </div>
+            
+            <div class="mb-3 mt-4">
+                <label for="direccion" class="form-label">Longitud de la direccion</label>
+                <input type="text" class="form-control" id="longitud" name="longitud">
+            </div>
+
+
+            
+            <div class="container mt-4 row g-3">
+                <div class="col-auto">
+                    <label readonly class="form-control-plaintext">Productos</label>
+                </div>
+
+                <div class="mx-4 col-auto">
+                    <button type="button" id="agregar" class="btn mb-3 text-light" style="background-color:#6E6194;">Agregar producto</button>
+                </div>
+            </div>
+
+            <div class="container input-group mb-3" id="productos"></div>
+
+            <div class="mb-3 mt-5 justiy-content-center">
+                <button type="submit" class="btn center w-100 btn-lg btn-block shadow-lg text-light" style=" background-color: #8973D9">Realizar pedido</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+<!-- Codigo para poder agregar un elmento dropdown a mi container de productos-->
+{% block js%}
+    {{ super() }}
+
+    <script>
+            
+        $(document).ready(() => {
+
+            const agregarProducto = $('#agregar');
+
+            agregarProducto[0].addEventListener("click", () => {
+                
+                var dropdown = document.createElement("select");
+                dropdown.classList.add("form-select", "w-50", "mt-2"); 
+                dropdown.setAttribute('name', 'modelo');
+                $.ajax({
+                    url: '/anillos',  
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        data.forEach((objeto) => {            
+                            var opcion = document.createElement("option");
+                            opcion.text = objeto[0] + " | " + objeto[1];
+                            dropdown.add(opcion);
+                        });
+                    }
+                });
+                
+                var contenedor = document.getElementById("productos");
+                contenedor.appendChild(dropdown);
+
+                const input = document.createElement("input");
+                input.classList.add("form-control", "mx-4", "mt-2");
+                input.setAttribute("placeholder", "Cantidad");
+                input.setAttribute("name", "cantidad")
+                input.setAttribute("value", 1);
+                contenedor.appendChild(input);
+
+            });
+        });
+
+    </script>
+
+{% endblock %}

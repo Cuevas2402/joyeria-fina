@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %} Branches {% endblock %}
+
+{% block head %}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="container mt-5 bg-white rounded shadow pt-5 pb-5 p-5 h-100 mb-5 w-75">
+        <div class="container">
+            <h2 class="text-center mb-5"> Detalles de Orden </h2>
+        </div>
+        <div class="container my-5">
+            <table class="table table-striped-columns">
+                <thead>
+                    <th> Atributo </th>
+                    <th> Valor </th>
+                </thead>
+                <tbody>
+                    {% for atributo, dato in results.items() %}
+                        <tr>
+                            <td>{{ atributo }}</td>
+                            <td>{{ dato }}</td>
+                        </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+{% endblock %}

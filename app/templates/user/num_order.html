@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %} Branches {% endblock %}
+
+{% block head %}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+
+
+    <div class="container mt-4 bg-white rounded shadow pt-5 pb-5 p-5 h-100 mb-5" style="margin-top: 30%;">
+        <h1 class="text-center"> Numero de orden # {{ pedido }}
+        </h1>
+    </div>
+
+{% endblock %}
+
+<!-- Codigo para poder agregar un elmento dropdown a mi container de productos-->
+{% block js%}
+    {{ super() }}
+
+{% endblock %}

@@ -9,7 +9,6 @@ $(document).ready(() =>{
             },
             success: (data) =>{
 
-                print(data)
                 $('#company').empty();
                 $('#vehicle').empty();
 

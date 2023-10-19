@@ -6,6 +6,9 @@ import requests
 def fetch_data_pago():
     if 'type' in session:
         if request.method == 'POST':
+            
+            return redirect(url_for('login'))
+
             id_branch = request.form.get('branch')
             id_company = request.form.get('company')
             id_vehicle = request.form.get('vehicle')

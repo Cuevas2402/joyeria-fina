@@ -8,6 +8,8 @@ $(document).ready(() =>{
                 'id':id
             },
             success: (data) =>{
+
+                print(data)
                 $('#company').empty();
                 $('#vehicle').empty();
 

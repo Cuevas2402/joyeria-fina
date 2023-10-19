@@ -65,7 +65,6 @@ def create_vehicle():
                 average_speed_sd = request.form.get('average_speed_sd')
                 average_trip_duration_sd = request.form.get('average_trip_duration_sd')
                 average_trip_stop_time_sd = request.form.get('average_trip_stop_time_sd')
-                average_trip_traveling_time_sd = request.form.get('average_trip_traveling_time_sd')
 
                 created_at = date.today()
 
@@ -77,9 +76,9 @@ def create_vehicle():
 
                 aux3 = ""
 
-                sql = "INSERT INTO truck (name, company_id, total_distance, route_count, average_duration, average_speed, average_stop_count_per_trip, average_distance_between_short_stops, average_stem_distance, average_trip_distance, short_stops_time, traveling_time, resting_time, stops_between_0_5, stops_between_5_15, stops_between_15_30, stops_between_30_60, stops_between_60_120, stops_between_120_plus, average_trip_stop_time, average_trip_traveling_time, average_stop_count_per_trip_sd, average_trip_distance_sd, average_stem_distance_sd, average_speed_sd, average_trip_duration_sd, average_trip_stop_time_sd, average_trip_traveling_time_sd, created_at, updated_at, aux1, aux2, aux3) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                sql = "INSERT INTO truck (name, company_id, total_distance, route_count, average_duration, average_speed, average_stop_count_per_trip, average_distance_between_short_stops, average_stem_distance, average_trip_distance, short_stops_time, traveling_time, resting_time, stops_between_0_5, stops_between_5_15, stops_between_15_30, stops_between_30_60, stops_between_60_120, stops_between_120_plus, average_trip_stop_time, average_trip_traveling_time, average_stop_count_per_trip_sd, average_trip_distance_sd, average_stem_distance_sd, average_speed_sd, average_trip_duration_sd, average_trip_stop_time_sd, created_at, updated_at, aux1, aux2, aux3) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 
-                values = (name, company_id, total_distance, route_count, average_duration, average_speed, average_stop_count_per_trip, average_distance_between_short_stops, average_stem_distance, average_trip_distance, short_stops_time, traveling_time, resting_time, stops_between_0_5, stops_between_5_15, stops_between_15_30, stops_between_30_60, stops_between_60_120, stops_between_120_plus, average_trip_stop_time, average_trip_traveling_time, average_stop_count_per_trip_sd, average_trip_distance_sd, average_stem_distance_sd, average_speed_sd, average_trip_duration_sd, average_trip_stop_time_sd, average_trip_traveling_time_sd, created_at, updated_at, aux1, aux2, aux3)
+                values = (name, company_id, total_distance, route_count, average_duration, average_speed, average_stop_count_per_trip, average_distance_between_short_stops, average_stem_distance, average_trip_distance, short_stops_time, traveling_time, resting_time, stops_between_0_5, stops_between_5_15, stops_between_15_30, stops_between_30_60, stops_between_60_120, stops_between_120_plus, average_trip_stop_time, average_trip_traveling_time, average_stop_count_per_trip_sd, average_trip_distance_sd, average_stem_distance_sd, average_speed_sd, average_trip_duration_sd, average_trip_stop_time_sd, created_at, updated_at, aux1, aux2, aux3)
 
                 cursor.execute(sql, values)        
 
